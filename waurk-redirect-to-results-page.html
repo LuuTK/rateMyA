@@ -1,2 +1,81 @@
-First name: <input type="text" name="FirstName" value="Mickey"><br>
-Last name: <input type="text" name="LastName" value="Mouse"><br>
+<!DOCTYPE html>
+<html>
+<body>
+
+
+<h1>Redirect to Results Page</h1>
+
+
+Job Keywords: <input type="text" id="waurk-job-keywords-input"><br>
+Location : <input type="text" id="waurk-location-keywords-input"><br>
+
+<button type="button" onclick="redirectToResultsPage()">Click Me!</button>
+
+
+<script>
+function redirectToResultsPage() {
+	var jobKeywordsInput = document.getElementById('waurk-job-keywords-input').value;
+	var locationInput = document.getElementById('waurk-location-keywords-input').value;
+	var redirectURL = '';
+
+	var formattedJobKeywords = formatQuery(jobKeywordsInput);
+	var formattedLocation = formatQuery(locationInput);
+	console.log(formatQuery(jobKeywordsInput));
+	console.log(formatQuery(locationInput));
+
+
+	if(formattedLocation === '' &&  formattedJobKeywords === ''){
+
+		redirectURL = "http://waurk.com/jobs-location-not-found";
+
+	}else{
+		if(formattedLocation === '' || formattedLocation == undefined ){
+				redirectURL = "http://waurk.com/jobs?p=" + formattedJobKeywords;
+		}
+
+		if(formattedJobKeywords === '' || formattedJobKeywords == undefined){
+				redirectURL = "http://waurk.com/jobs?p=&l=" + formattedLocation;
+		}
+	}
+
+
+	if(formattedLocation !== '' && formattedJobKeywords !== '' ){
+				redirectURL = "http://waurk.com/jobs?p=" + formattedJobKeywords + '&l=' + formattedLocation;
+	}
+
+	console.log('redirectURL = ' + redirectURL);
+	//window.location = redirectURL;
+    //window.location = "http://waurk.com/jobs?p=accountant&l=new+york";
+}
+
+function formatQuery(inputString){
+
+	var tempStringArray = inputString.split(' ');
+	var outputString = '';
+
+	for(var i = 0; i < tempStringArray.length; i++){
+		if(tempStringArray[i] !== '' && tempStringArray[i] != undefined){
+			outputString += tempStringArray[i] + '+';
+		}
+	}
+
+	outputString = outputString.replace(/\+(\s+)?$/, '');
+
+	return outputString;
+}
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+http://waurk.com/jobs?p=accountant&l=new+york
+
+http://waurk.com/jobs?p=accountant&l=
+
+http://waurk.com/jobs?p=&l=new+york
